@@ -1,13 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
+//import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import PrimaryNavigations from './src/navigations/PrimaryNavigations';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Okki!</Text>
-      <StatusBar style="auto" />
-    </View>
+    // <View style={styles.container}>
+
+    //   <Text>Okki!</Text>
+    //   <StatusBar style="auto" />
+    // </View>
+       <PrimaryNavigations />
   );
 }
 
