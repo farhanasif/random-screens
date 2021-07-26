@@ -6,14 +6,22 @@ import CallingBalanceScreen from '../screens/CallingBalanceScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ReceiverScreen from '../screens/ReceiverScreen';
 import ReceivingBalanceScreen from '../screens/ReceivingBalanceScreen';
+import ReportGuestScreen from '../screens/ReportGuestScreen';
 
 const PrimaryNavigator = createStackNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: () => ({ title: 'Home Page'})
+    },
     Call: CallerScreen,
     Receving: ReceiverScreen,
     CallingBalance: CallingBalanceScreen,
     RecevingBalance: ReceivingBalanceScreen,
-    Home: HomeScreen,
     Bill: BillingScreen,
+    ReportGuest: {
+        screen: ReportGuestScreen,
+        navigationOptions: () => ({ title: 'Report'})
+    }
 });
 
 export default createAppContainer(PrimaryNavigator);

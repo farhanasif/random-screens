@@ -1,0 +1,202 @@
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+
+const ReportGuestScreen = props => {
+
+    const [guestReportData, setGuestReportData] = useState('');
+
+    useEffect(() => {
+    
+        const fetchData = async () => {
+
+            fetch("http://103.108.144.246/pinacallapi/process.php", {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    action: "getGuestCallDetails",
+                    mobile: "01717428261"})
+                })
+                .then(response => response.json())
+                .then(response => {
+                    setGuestReportData(response);
+                })
+                .catch(error => console.log('error', error));
+        };
+        fetchData();
+    },[]);
+
+    return (
+        <View style={styles.container}>
+        <ScrollView contentInsetAdjustmentBehavior='automatic' showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+
+            <SafeAreaView>
+
+            {/* CallList */}
+            <View styles={styles.callListWraper}>
+                <Text style={{fontSize: 20, paddingTop: 20, paddingHorizontal: 20, alignSelf:'flex-start'}}>Guest Report</Text>
+
+                <View style={styles.callListCardWraper}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        
+                        <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
+                            <View>
+                                <Text style={{fontSize:20}}>Number of audio call :</Text>
+                            </View>
+                            <View style={{paddingHorizontal: 20}}>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.number_of_audio_call : ""}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
+                            <View>
+                                <Text style={{fontSize:20}}>Number of Video :</Text>
+                            </View>
+                            <View style={{paddingHorizontal: 20}}>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.number_of_video_call: ''}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
+                            <View>
+                                <Text style={{fontSize:20}}>Duration of audio :</Text>
+                            </View>
+                            <View style={{paddingHorizontal: 20}}>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.duration_of_audio: ''}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
+                            <View>
+                                <Text style={{fontSize:20}}>Duration of video :</Text>
+                            </View>
+                            <View style={{paddingHorizontal: 20}}>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.duration_of_video: ''}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
+                            <View>
+                                <Text style={{fontSize:20}}>Audio Charges :</Text>
+                            </View>
+                            <View style={{paddingHorizontal: 20}}>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.audio_charges: ''}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
+                            <View>
+                                <Text style={{fontSize:20}}>Video Charges :</Text>
+                            </View>
+                            <View style={{paddingHorizontal: 20}}>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.video_charges: ''}</Text>
+                            </View>
+                        </View>
+                        <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
+                            <View>
+                                <Text style={{fontSize:20}}>Account balance :</Text>
+                            </View>
+                            <View style={{paddingHorizontal: 20}}>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.balance: ''}</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.callListCardWraper}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
+                            <View>
+                                <Text style={{fontSize:20}}>Last 3 days call details</Text>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+
+
+            </View>
+            </SafeAreaView>
+
+        </ScrollView>
+        
+    </View>
+    );
+};
+
+export default ReportGuestScreen;
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+        },
+    headerWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        backgroundColor: '#ffff',
+        paddingHorizontal: 20,
+        paddingTop: 40,
+        alignItems: 'center'
+        }, 
+    ScreenButton: {
+        flexDirection:'row',
+        justifyContent: 'space-around',
+        backgroundColor: '#ffff',
+        paddingTop: 15,
+        paddingBottom: 12,
+        marginTop: 0,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#f1faee'
+    },
+    ScreenButtonView: {
+        flexDirection: 'column',
+        backgroundColor: '#ffff',
+        justifyContent: 'center',
+        alignItems: 'center'
+
+    },
+    IconView:{
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    IconText: {
+        color: '#264653'
+    },
+    ScreenButtonViewRecv: {
+        flexDirection: 'row',
+        backgroundColor: '#ffff',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    },
+    ButtonOne: {
+        color: "#0083B0",
+    },
+    ButtonTextOne: {
+        color: "blue",
+        fontSize: 20
+    }, 
+    callListWraper : {
+        paddingHorizontal: 20,
+        backgroundColor: '#ffff'
+    },
+    callListCardWraper: {
+        backgroundColor: '#ffff',
+        borderRadius: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 10,
+        marginHorizontal: 15,
+        marginVertical: 15,
+        flexDirection: 'row',
+        overflow: 'hidden',
+        borderBottomColor: '#DEDEDE',
+        borderBottomWidth: 1,
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2
+    }
+    })
