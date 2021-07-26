@@ -36,7 +36,7 @@ const ReportGuestScreen = props => {
 
             {/* CallList */}
             <View styles={styles.callListWraper}>
-                <Text style={{fontSize: 20, paddingVertical: 20, paddingHorizontal: 20, alignSelf:'flex-start'}}>Guest Report</Text>
+                <Text style={{fontSize: 20, paddingTop: 20, paddingHorizontal: 20, alignSelf:'flex-start'}}>Guest Report</Text>
 
                 <View style={styles.callListCardWraper}>
                     <View style={{flexDirection:'row', flexWrap:'wrap'}}>
@@ -185,9 +185,10 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         paddingLeft: 10,
         marginHorizontal: 15,
+        marginVertical: 15,
         flexDirection: 'row',
         overflow: 'hidden',
-        borderBottomColor: '#0083B0',
+        borderBottomColor: '#DEDEDE',
         borderBottomWidth: 1,
         shadowColor: 'black',
         shadowOffset: {
