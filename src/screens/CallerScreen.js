@@ -1,10 +1,41 @@
-import React from 'react';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import callerData from './CallerData';
 
 const CallerScreen = props => {
+
+    const [guestCallLogData, SetGuestCallLogData] = useState([]);
+    const [guestInfo, setGuestInfo] = useState({
+        "action": "getGuestCallLog",
+        "mobile": "01717428261"
+    });
+
+    useEffect(() => {
+    
+        const fetchData = async () => {
+
+            fetch("http://103.108.144.246/pinacallapi/process.php", {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                        action: guestInfo.action,
+                        mobile: guestInfo.mobile
+                    })
+                })
+                .then(response => response.json())
+                .then(response => {
+                    let callDate = response.filter((log)=> (log.sender_mobile === guestInfo.mobile))
+                    SetGuestCallLogData(callDate);
+                })
+                .catch(error => console.log('error', error));
+        };
+        fetchData();
+    },[]);
 
     return (
         <View style={styles.container}>
@@ -47,13 +78,13 @@ const CallerScreen = props => {
 
                 {/* CallList */}
                 <View styles={styles.callListWraper}>
-                    <Text style={{fontSize: 15, paddingVertical: 10, alignSelf:'center'}}>Call List</Text>
+                    <Text style={{fontSize: 15, paddingVertical: 10, alignSelf:'center'}}>Call Log</Text>
                     {/* Call List Start */}
-                    {
-                        callerData.map((items, key)=> (
+                    {   guestCallLogData && guestCallLogData.length> 0 ? 
+                        guestCallLogData.map((items)=> (
 
                             <View style={styles.callListCardWraper}>
-                                <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                                <View style={{flexDirection:'row'}}>
                                     <View style={{paddingHorizontal: 10, justifyContent:'center'}}>
                                     <Feather 
                                         name="user"
@@ -63,7 +94,7 @@ const CallerScreen = props => {
                                     </View>
                                     <View style={{paddingHorizontal: 5}}>
                                         <View>
-                                            <Text style={{fontSize:20}}>{items.name? items.name: items.phone}</Text>
+                                            <Text style={{fontSize:20}}>{items.receiver_mobile? items.receiver_mobile:''}</Text>
                                         </View>
                                         <View style={{flexDirection:'row', alignContent: 'center', alignItems: 'center', marginTop: 5}}>
                                             <Text style={{paddingRight:5, color: 'gray'}}>Duration</Text>
@@ -71,7 +102,7 @@ const CallerScreen = props => {
                                                     name="checkbox-blank-circle"
                                                     size={5}
                                                 />
-                                            <Text style={{paddingHorizontal:5, color: 'gray'}}>{items.duration}</Text>
+                                            <Text style={{paddingHorizontal:5, color: 'gray'}}>{moment.utc(items.duration*1000).format('HH:mm:ss')}</Text>
                                         </View>
                                         <View style={{flexDirection:'row', alignContent: 'center', alignItems: 'center', marginTop: 2, marginBottom: 5}}>
                                             <Text style={{paddingRight:4, color: 'gray'}}>Call Cost</Text>
@@ -79,21 +110,36 @@ const CallerScreen = props => {
                                                     name="checkbox-blank-circle"
                                                     size={5}
                                                 />
-                                            <Text style={{paddingHorizontal:5, color: 'gray'}}>{items.call_cost}</Text>
+                                            <Text style={{paddingHorizontal:5, color: 'gray'}}>{(Math.floor(items.duration/600)+1)*10} BDT</Text>
                                         </View>
                                     </View>
-                                    <View style={{flexDirection:'row', alignItems: 'flex-end', marginTop: 2, marginBottom: 5}}>
-                                        <MaterialCommunityIcons 
-                                                    name="clock-outline"
-                                                    size={20}
-                                                    color='gray'
-                                        />
-                                        <Text style={{paddingHorizontal:2, color:'gray'}}>{items.call_time}</Text>
+
+                                    <View style={{flexDirection:'column', flexWrap:'wrap', justifyContent: 'flex-end'}}>
+
+                                        <View style={{flexDirection:'row', flexWrap: 'wrap', marginTop: 2, marginBottom: 5, alignSelf: "flex-end"}}>
+                                                <MaterialCommunityIcons 
+                                                            name={items.calltype == 1? 'video': 'call-made'}
+                                                            size={20}
+                                                            color='gray'
+                                                />
+                                        </View>
+
+                                        <View style={{flexDirection:'row', flexWrap: 'wrap', marginTop: 2, marginBottom: 5}}>
+                                            <MaterialCommunityIcons 
+                                                        name="clock-outline"
+                                                        size={20}
+                                                        color='gray'
+                                            />
+                                            <Text style={{paddingHorizontal:2, color:'gray'}}>
+                                                {moment(items.created_at).format('LLL')}
+                                                </Text>
+                                        </View>
+
                                     </View>
-                                    
                                 </View>
                             </View>
                         ))
+                        : null
                     }
 
                     {/* Call List Ends */}
@@ -207,11 +253,14 @@ const styles = StyleSheet.create({
     },
     callListCardWraper: {
         backgroundColor: '#ffff',
-        borderRadius: 12,
+        borderRadius: 10,
+        borderBottomColor: '#DEDEDE',
+        borderBottomWidth: 0,
         paddingTop: 10,
         paddingBottom: 10,
         paddingLeft: 10,
         flexDirection: 'row',
+        justifyContent: 'space-between',
         overflow: 'hidden',
         shadowColor: 'black',
         shadowOffset: {
