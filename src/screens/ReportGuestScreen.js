@@ -28,6 +28,22 @@ const ReportGuestScreen = props => {
         fetchData();
     },[]);
 
+    const DurationFormat = (time) => {   
+        // Hours, minutes and seconds
+        var hrs = ~~(time / 3600);
+        var mins = ~~((time % 3600) / 60);
+        var secs = ~~time % 60;
+    
+        // Output like "1:01" or "4:03:59" or "123:03:59"
+        var ret = "";
+        if (hrs > 0) {
+            ret += hrs + " Hrs " + (mins < 10 ? "0" : "");
+        }
+        ret += "" + mins + " Min " + (secs < 10 ? "0" : "");
+        ret += secs + " Sec";
+        return ret;
+    }
+
     return (
         <View style={styles.container}>
         <ScrollView contentInsetAdjustmentBehavior='automatic' showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
@@ -39,7 +55,7 @@ const ReportGuestScreen = props => {
                 <Text style={{fontSize: 20, paddingTop: 20, paddingHorizontal: 20, alignSelf:'flex-start'}}>Guest Report</Text>
 
                 <View style={styles.callListCardWraper}>
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent: "flex-start"}}>
                         
                         <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
                             <View>
@@ -62,7 +78,7 @@ const ReportGuestScreen = props => {
                                 <Text style={{fontSize:20}}>Duration of audio :</Text>
                             </View>
                             <View style={{paddingHorizontal: 20}}>
-                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.duration_of_audio: ''}</Text>
+                                <Text style={{fontSize:20}}>{guestReportData? DurationFormat(guestReportData.duration_of_audio): ''}</Text>
                             </View>
                         </View>
                         <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
@@ -70,7 +86,7 @@ const ReportGuestScreen = props => {
                                 <Text style={{fontSize:20}}>Duration of video :</Text>
                             </View>
                             <View style={{paddingHorizontal: 20}}>
-                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.duration_of_video: ''}</Text>
+                                <Text style={{fontSize:20}}>{guestReportData? DurationFormat(guestReportData.duration_of_video): ''}</Text>
                             </View>
                         </View>
                         <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
@@ -78,7 +94,7 @@ const ReportGuestScreen = props => {
                                 <Text style={{fontSize:20}}>Audio Charges :</Text>
                             </View>
                             <View style={{paddingHorizontal: 20}}>
-                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.audio_charges: ''}</Text>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.audio_charges+ " BDT": ''}</Text>
                             </View>
                         </View>
                         <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
@@ -86,7 +102,7 @@ const ReportGuestScreen = props => {
                                 <Text style={{fontSize:20}}>Video Charges :</Text>
                             </View>
                             <View style={{paddingHorizontal: 20}}>
-                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.video_charges: ''}</Text>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.video_charges + " BDT": ''}</Text>
                             </View>
                         </View>
                         <View style={{flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 10}}>
@@ -94,7 +110,7 @@ const ReportGuestScreen = props => {
                                 <Text style={{fontSize:20}}>Account balance :</Text>
                             </View>
                             <View style={{paddingHorizontal: 20}}>
-                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.balance: ''}</Text>
+                                <Text style={{fontSize:20}}>{guestReportData? guestReportData.balance + " BDT": ''}</Text>
                             </View>
                         </View>
                     </View>
