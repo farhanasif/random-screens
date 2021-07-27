@@ -82,9 +82,9 @@ const ReceiverScreen = props => {
                 {/* Call List Start */}
                     {   
                     guestCallLogData && guestCallLogData.length> 0 ? 
-                        guestCallLogData.map((items)=> (
+                        guestCallLogData.map((items, key)=> (
 
-                            <View style={styles.callListCardWraper}>
+                            <View style={styles.callListCardWraper} key={key}>
                                 <View style={{flexDirection:'row'}}>
                                     <View style={{paddingHorizontal: 10, justifyContent:'center'}}>
                                     <Feather 
