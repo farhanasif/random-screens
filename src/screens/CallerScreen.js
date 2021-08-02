@@ -1,8 +1,9 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const CallerScreen = props => {
 
@@ -11,6 +12,32 @@ const CallerScreen = props => {
         "action": "getGuestCallLog",
         "mobile": "01717428261"
     });
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        SetGuestCallLogData([]);
+
+        fetch("http://103.108.144.246/pinacallapi/process.php", {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                    action: guestInfo.action,
+                    mobile: guestInfo.mobile
+                })
+            })
+            .then(response => response.json())
+            .then(response => {
+                let callDate = response.filter((log)=> (log.sender_mobile === guestInfo.mobile))
+                SetGuestCallLogData(callDate);
+            })
+            .then(() => setRefreshing(false))
+            .catch(error => console.log('error', error));
+    }, []);
 
     useEffect(() => {
     
@@ -37,9 +64,22 @@ const CallerScreen = props => {
         fetchData();
     },[]);
 
+
+
     return (
         <View style={styles.container}>
-            <ScrollView contentInsetAdjustmentBehavior='automatic' showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+            <ScrollView 
+                contentInsetAdjustmentBehavior='automatic' 
+                showsVerticalScrollIndicator={false} 
+                showsHorizontalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl
+                      refreshing={refreshing}
+                      onRefresh={onRefresh}
+                    />
+                  }
+                >
+                <SafeAreaView backgroundColor='#ffff'>
                 <View style={styles.ScreenButton}>
                         <View style={styles.ScreenButtonView}>
                             <TouchableOpacity
@@ -74,16 +114,16 @@ const CallerScreen = props => {
                         }}
                         /> */}
                 </View>
-                <SafeAreaView backgroundColor='#ffff'>
+                {/* <SafeAreaView backgroundColor='#ffff'> */}
 
                 {/* CallList */}
                 <View styles={styles.callListWraper}>
                     <Text style={{fontSize: 15, paddingVertical: 10, alignSelf:'center'}}>Call Log</Text>
                     {/* Call List Start */}
                     {   guestCallLogData && guestCallLogData.length> 0 ? 
-                        guestCallLogData.map((items)=> (
+                        guestCallLogData.map((items, key)=> (
 
-                            <View style={styles.callListCardWraper}>
+                            <View style={styles.callListCardWraper} key={key}>
                                 <View style={{flexDirection:'row'}}>
                                     <View style={{paddingHorizontal: 10, justifyContent:'center'}}>
                                     <Feather 
