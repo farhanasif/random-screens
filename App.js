@@ -1,16 +1,17 @@
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { DefaultTheme } from 'react-native-paper';
 import PrimaryNavigations from './src/navigations/PrimaryNavigations';
 
 export default function App() {
   return (
-    // <View style={styles.container}>
+    // <PaperProvider theme={theme}>
 
-    //   <Text>Okki!</Text>
-    //   <StatusBar style="auto" />
-    // </View>
-       <PrimaryNavigations />
+        <PrimaryNavigations />
+
+    // </PaperProvider>
+      
   );
 }
 
@@ -22,3 +23,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#3498db',
+    accent: '#f1c40f',
+  },
+};
