@@ -4,11 +4,16 @@ import BillingScreen from '../screens/BillingScreen';
 import CallerScreen from '../screens/CallerScreen';
 import CallingBalanceScreen from '../screens/CallingBalanceScreen';
 import HomeScreen from '../screens/HomeScreen';
+import LoginScreen from '../screens/LoginScreen';
 import ReceiverScreen from '../screens/ReceiverScreen';
 import ReceivingBalanceScreen from '../screens/ReceivingBalanceScreen';
 import ReportGuestScreen from '../screens/ReportGuestScreen';
 
 const PrimaryNavigator = createStackNavigator({
+    LoginScreen: {
+        screen: LoginScreen,
+        navigationOptions: () => ({ title: 'Login'})
+    },
     Home: {
         screen: HomeScreen,
         navigationOptions: () => ({ title: 'Home Page'})

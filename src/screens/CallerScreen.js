@@ -4,7 +4,6 @@ import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOp
 import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
 const CallerScreen = props => {
 
     const [guestCallLogData, SetGuestCallLogData] = useState([]);
@@ -32,8 +31,9 @@ const CallerScreen = props => {
             })
             .then(response => response.json())
             .then(response => {
-                let callDate = response.filter((log)=> (log.sender_mobile === guestInfo.mobile))
-                SetGuestCallLogData(callDate);
+                console.log(response);
+                //let callDate = response.filter((log)=> (log.sender_mobile === guestInfo.mobile))
+                SetGuestCallLogData(response);
             })
             .then(() => setRefreshing(false))
             .catch(error => console.log('error', error));
@@ -56,8 +56,8 @@ const CallerScreen = props => {
                 })
                 .then(response => response.json())
                 .then(response => {
-                    let callDate = response.filter((log)=> (log.sender_mobile === guestInfo.mobile))
-                    SetGuestCallLogData(callDate);
+                    //let callDate = response.filter((log)=> (log.sender_mobile === guestInfo.mobile))
+                    SetGuestCallLogData(response);
                 })
                 .catch(error => console.log('error', error));
         };
@@ -187,48 +187,47 @@ const CallerScreen = props => {
                 </SafeAreaView>
 
 
-            </ScrollView>
-            
+            </ScrollView>            
             <View style={styles.ScreenButton}>
 
-                        <View style={styles.ScreenButtonView}>
-                            <TouchableOpacity
-                            style={styles.ButtonOne}
-                            onPress={()=>{
-                                props.navigation.navigate({routeName: 'Bill'})
-                            }}
-                            >
-                                <View>
-                                    <Feather 
-                                        name="zap"
-                                        size={20}
-                                        color= '#a8dadc'
-                                    />
-                                </View>
-                                <View style={styles.IconView}>
-                                 <Text style={styles.IconText}>Bill</Text>
-                                </View>
-                            </TouchableOpacity>
+                <View style={styles.ScreenButtonView}>
+                    <TouchableOpacity
+                    style={styles.ButtonOne}
+                    onPress={()=>{
+                        props.navigation.navigate({routeName: 'Bill'})
+                    }}
+                    >
+                        <View>
+                            <Feather 
+                                name="zap"
+                                size={20}
+                                color= '#a8dadc'
+                            />
                         </View>
-                        <View style={styles.ScreenButtonView}>
-                            <TouchableOpacity
-                            style={styles.ButtonOne}
-                            onPress={()=>{
-                                props.navigation.navigate({routeName: 'RecevingBalance'})
-                            }}
-                            >
-                                <View>
-                                    <Feather 
-                                        name="pie-chart"
-                                        size={20}
-                                        color= '#a8dadc'
-                                    />
-                                </View>
-                                <View style={styles.IconView}>
-                                 <Text style={styles.IconText}>Balance</Text>
-                                </View>
-                            </TouchableOpacity>
+                        <View style={styles.IconView}>
+                            <Text style={styles.IconText}>Bill</Text>
                         </View>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.ScreenButtonView}>
+                    <TouchableOpacity
+                    style={styles.ButtonOne}
+                    onPress={()=>{
+                        props.navigation.navigate({routeName: 'RecevingBalance'})
+                    }}
+                    >
+                        <View>
+                            <Feather 
+                                name="pie-chart"
+                                size={20}
+                                color= '#a8dadc'
+                            />
+                        </View>
+                        <View style={styles.IconView}>
+                            <Text style={styles.IconText}>Balance</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     );

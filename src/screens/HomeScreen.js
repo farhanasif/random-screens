@@ -1,94 +1,74 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-
+import { StyleSheet, View } from 'react-native';
+import { DefaultTheme, List, Provider as PaperProvider } from 'react-native-paper';
 
 const HomeScreen = props => {
 
     return (
+        <PaperProvider theme={theme}>
         <View style={styles.container}>
-            <Text>
-                Go to Caller Screen
-            </Text>
-            <Button title="Go to Call List" onPress={()=>{
-                props.navigation.navigate({routeName: 'Call'})
-            }}
-            />
-            <Text>
-                Go to Receiver Screen
-            </Text>
-            <Button title="Go to Receiver List" onPress={()=>{
-                props.navigation.navigate({routeName: 'Receving'})
-            }}
-            />
-            <Text>
-                Go to Billing Screen
-            </Text>
-            <Button title="Go to billing" onPress={()=>{
-                props.navigation.navigate({routeName: 'Bill'})
-            }}
-            />
-            <Text>
-                Go to Receiving Balance
-            </Text>
-            <Button title="Go to Receiving Balance" onPress={()=>{
-                props.navigation.navigate({routeName: 'RecevingBalance'})
-            }}
-            />
-            <Text>
-                Go to Reports
-            </Text>
-            <Button title="Reports" onPress={()=>{
-                props.navigation.navigate({routeName: 'ReportGuest'})
-            }}
-            />            
-            {/* <View style={styles.ScreenButtonView}>
-                <TouchableOpacity
-                style={styles.ButtonOne}
-                onPress={()=>{
-                    props.navigation.navigate({routeName: 'Call'})
-                }}
-                >
-                    <Feather 
-                        name="phone-outgoing"
-                        size={58}
-                        color= '#0083B0'
-                    />
-                    <Text>
-                        Go to Calls
-                    </Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.ScreenButtonView}>
-                <TouchableOpacity
-                style={styles.ButtonOne}
-                onPress={()=>{
-                    props.navigation.navigate({routeName: 'Call'})
-                }}
-                >
-                    <Feather 
-                        name="phone-outgoing"
-                        size={58}
-                        color= '#0083B0'
-                    />
-                    <Text>
-                        Go to Calls
-                    </Text>
-                </TouchableOpacity>
-            </View> */}
+            
+            <List.Section>
+
+                <List.Subheader>Browse Different Screens</List.Subheader>
+
+                <List.Item 
+                    title="Go to Caller Screen" 
+                    left={() => <List.Icon icon="chevron-right" />}
+                    onPress={()=>{props.navigation.navigate({routeName: 'Call'})}} 
+                />
+
+                <List.Item
+                    title="Go to Receiver Screen"
+                    left={() => <List.Icon color="#000" icon="chevron-right" />}
+                    onPress={()=>{props.navigation.navigate({routeName: 'Receving'})}}
+                />
+
+                <List.Item 
+                    title="Bill" 
+                    left={() => <List.Icon icon="chevron-right" />}
+                    onPress={()=>{props.navigation.navigate({routeName: 'Bill'})}} 
+                />
+
+                <List.Item
+                    title="Go to Receving Balance"
+                    left={() => <List.Icon color="#000" icon="chevron-right" />}
+                    onPress={()=>{props.navigation.navigate({routeName: 'RecevingBalance'})}}
+                />
+                <List.Item
+                    title="Go to Reports"
+                    left={() => <List.Icon color="#000" icon="chevron-right" />}
+                    onPress={()=>{props.navigation.navigate({routeName: 'ReportGuest'})}}
+                />
+                
+            </List.Section>
+            
         </View>
+        </PaperProvider>
     );
 };
 
 export default HomeScreen;
 
+const theme = {
+    ...DefaultTheme,
+    roundness: 4,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#3498db',
+      accent: '#f1c40f',
+    },
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //flexDirection: 'row',
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        },
+    },
     ScreenButtonView: {
         flexDirection: 'column',
         backgroundColor: '#ffff',
